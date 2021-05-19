@@ -19,62 +19,44 @@ void VectorN::Display() const
 	cout << endl;
 }
 
-void VectorN::Init(int N, int  el, int i)
+void VectorN::Destroy()
+{
+	delete[]a;
+}
+
+void VectorN::Init(int N)
 {
 	setN(N);
-	a.reserve(N);
-	setA(el, i);
+	a = new double[N];
+	for (size_t i = 0; i < N; i++)
+	{
+		a[i] = 0;
+	}
 }
 
 void VectorN::Read()
 {
-	int N, el;
+	int N;
 	// Створення вектора
 	cout << "Розмірність вектора: "; cin >> N;
+	Init(N);
+
 	for (int i = 0; i < N; i++)
 	{
-		cout << "Елемент №" << i+1 << " = "; cin >> el;
-		Init(N, el, i);
-	}
-	Display();
-	int option;
-	cout << "   Дії над вектором"			<< endl;
-	cout << "(1)Множення на скаляр"			<< endl;
-	cout << "(2)Обчислення довжини вектора" << endl;
-	cout << "(3)Дії над векторами"				<< endl;
-	cout << "Оберіть дію: ";			cin >> option;
-	switch (option)
-	{
-	case 1:
-		cout << "Введіть скаляр: "; cin >> k;
-		mScalar(k);
-		break;
-	case 2:
-		lVector();
-		break;
-	case 3:
-		break;
-	case 4:
-		break;
-	default:
-		break;
+		cout << "Елемент №" << i + 1 << " = "; cin >> a[i];
 	}
 }
-
 string VectorN::toString() const
 {
 	stringstream sout; // створили об'єкт "літерний потік"
+
+	sout << "Вектор = { ";
 	// направляємо в літерний потік
-	string vect;
 	for (int i = 0; i < N; i++)
 	{
-		ostringstream strg;
-		strg << a[i];
-		vect += strg.str() + "; ";
+		sout << a[i] <<"; ";
 	}
-	sout << "Вектор = { " << vect << "}" << endl; 
-	cout << " N = " << N << endl;
-	cout << "Перший = " << a[0] << endl;
+	sout << "}" << endl;
 	// виведення даних про об'єкт
 	return sout.str();	// str() перетворює літерний потік до літерного рядка
 }
@@ -87,68 +69,54 @@ string VectorN::toString() const
 - порівняння довжин векторів.	|a| == |b|
 */
 
-void VectorN::mScalar(int k)
+
+double VectorN::len() const
 {
-	for (int i = 0; i < N; i++)
-	{
-		a.at(i) = a[i] * k;
-		cout << a[i] << endl;
-	}
-	Display();
-}
-int VectorN::lVector()
-{
-	int length = 0;
+	double length = 0;
 	for (int i = 0; i < N; i++)
 	{
 		length += a[i] * a[i];
 	}
-	length = abs(sqrt(length));
+	length = sqrt(length);
 	return length;
 }
-bool VectorN::Compare(VectorN name)
+bool E(const VectorN& l, const VectorN& r)
 {
-	if (getN() == name.getN())
+	bool result = l.N == r.N;
+	for (size_t i = 0; i < l.N; i++)
 	{
-		bool tf;
-		int tfr = 0;
-		for (int i = 0; i < N; i++)
-		{
-			tf = a[i] == name.a[i];
-			if (tf == false)
-			{
-				tfr += 1;
-			}
-		}
-		if (tfr == 0)
-		{
-			cout << "Вектори однакові.";
-			return true;
-		}
-		else if (tfr > 0)
-		{
-			cout << "Вектори не однакові.";
-			return false;
-		}
+		result = result && l.a[i] == r.a[i];
 	}
-	else
-	{
-		cout << "Розмірність векторів не однакова!";
-		return false;
-	}
+	return result;
 }
-bool VectorN::lCompare(VectorN name) 
+bool NE(const VectorN& l, const VectorN& r)
 {
-	bool lc = lVector() == name.lVector();
-	if (lc)
-	{
-		cout << "Довжини векторів рівні." << endl;
-		return true;
-	}
-	else if (!lc)
-	{
-		cout << "Довжини векторів не рівні." << endl;
-		return false;
-	}
+	return !E(l, r);
+}
+bool G(const VectorN& l, const VectorN& r)
+{
+	return l.len() > r.len();
+}
+bool GE(const VectorN& l, const VectorN& r)
+{
+	return !L(l, r);
+}
+bool L( const VectorN& l, const VectorN& r)
+{
+	return l.len() < r.len();
+}
+bool LE(const VectorN& l, const VectorN& r)
+{
+	return !G(l, r);
 }
 
+VectorN mul(const VectorN& l, int k)
+{
+	VectorN t;
+	t.Init(l.N);
+	for (int i = 0; i < l.N; i++)
+	{
+		t.a[i] = l.a[i] * k;
+	}
+		return t;
+}

@@ -1,5 +1,4 @@
 ﻿  UnitTest1.cpp
-C:\Users\T\source\repos\lab1_3\lab1_3\VectorN.cpp(106,14): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\T\source\repos\lab1_3\lab1_3\VectorN.cpp(139): warning C4715: 'VectorN::Compare': not all control paths return a value
-C:\Users\T\source\repos\lab1_3\lab1_3\VectorN.cpp(153): warning C4715: 'VectorN::lCompare': not all control paths return a value
+C:\Users\T\source\repos\lab1_3\lab1_3\VectorN.cpp(31,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\T\source\repos\lab1_3\lab1_3\VectorN.cpp(86,23): warning C4018: '<': signed/unsigned mismatch
   UnitTest1.vcxproj -> C:\Users\T\source\repos\lab1_3\Debug\UnitTest1.dll
